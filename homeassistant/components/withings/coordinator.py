@@ -131,7 +131,9 @@ class WithingsMeasurementDataUpdateCoordinator(
             )
 
         if measurements:
-            self._last_valid_update = measurements[0].taken_at
+            self._last_valid_update = max(
+                measurement.taken_at for measurement in measurements
+            )
             aggregated_measurements = aggregate_measurements(measurements)
             self._previous_data.update(aggregated_measurements)
         return self._previous_data
