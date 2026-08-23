@@ -25,6 +25,9 @@ from homeassistant.util import dt as dt_util
 from tests.common import MockConfigEntry, async_fire_time_changed
 
 
+# Time the test body only, as the first test in a module also pays for the
+# module scoped fixture setup, which can exhaust the CI timeout on its own.
+@pytest.mark.timeout(func_only=True)
 @pytest.mark.parametrize(
     "time_zone", ["Asia/Tokyo", "Europe/Berlin", "America/Chicago", "US/Hawaii"]
 )
