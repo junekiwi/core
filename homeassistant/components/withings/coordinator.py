@@ -55,6 +55,7 @@ class WithingsDataUpdateCoordinator[_DataT](DataUpdateCoordinator[_DataT]):
             config_entry=config_entry,
             name="",
             update_interval=self._default_update_interval,
+            always_update=False,
         )
         self.name = f"Withings {self.config_entry.unique_id} {self.coordinator_name}"
         self._client = client
@@ -133,7 +134,10 @@ class WithingsMeasurementDataUpdateCoordinator(
         if measurements:
             self._last_valid_update = measurements[0].taken_at
             aggregated_measurements = aggregate_measurements(measurements)
-            self._previous_data.update(aggregated_measurements)
+            self._previous_data = {
+                **self._previous_data,
+                **aggregated_measurements,
+            }
         return self._previous_data
 
 
