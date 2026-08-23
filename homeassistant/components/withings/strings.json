@@ -208,14 +208,23 @@
       "muscle_mass_for_segments_torso": {
         "name": "Muscle mass in torso"
       },
+      "out_of_bed_count": {
+        "name": "Out of bed count"
+      },
       "pulse_wave_velocity": {
         "name": "Pulse wave velocity"
       },
       "rem_sleep": {
         "name": "REM sleep"
       },
+      "rem_sleep_phase_count": {
+        "name": "REM sleep phase count"
+      },
       "skin_temperature": {
         "name": "Skin temperature"
+      },
+      "sleep_efficiency": {
+        "name": "Sleep efficiency"
       },
       "sleep_goal": {
         "name": "Sleep goal"
@@ -244,6 +253,12 @@
       "time_to_wakeup": {
         "name": "Time to wakeup"
       },
+      "total_sleep_time": {
+        "name": "Total sleep time"
+      },
+      "total_time_in_bed": {
+        "name": "Total time in bed"
+      },
       "vascular_age": {
         "name": "Vascular age"
       },
@@ -252,6 +267,9 @@
       },
       "vo2_max": {
         "name": "VO2 max"
+      },
+      "wake_after_sleep_onset": {
+        "name": "Wake after sleep onset"
       },
       "wakeup_count": {
         "name": "Wakeup count"

@@ -184,6 +184,12 @@ class WithingsSleepDataUpdateCoordinator(
                 SleepSummaryDataFields.SNORING_COUNT,
                 SleepSummaryDataFields.WAKE_UP_COUNT,
                 SleepSummaryDataFields.TOTAL_TIME_AWAKE,
+                SleepSummaryDataFields.SLEEP_EFFICIENCY,
+                SleepSummaryDataFields.TOTAL_SLEEP_TIME,
+                SleepSummaryDataFields.TOTAL_TIME_IN_BED,
+                SleepSummaryDataFields.TIME_AWAKE_DURING_SLEEP,
+                SleepSummaryDataFields.OUT_OF_BED_COUNT,
+                SleepSummaryDataFields.REM_SLEEP_PHASE_COUNT,
             ],
         )
         if not response:

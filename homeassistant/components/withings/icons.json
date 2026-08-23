@@ -90,6 +90,12 @@
       "time_to_wakeup": {
         "default": "mdi:sleep-off"
       },
+      "total_sleep_time": {
+        "default": "mdi:sleep"
+      },
+      "wake_after_sleep_onset": {
+        "default": "mdi:sleep-off"
+      },
       "wakeup_count": {
         "default": "mdi:sleep-off"
       },
