@@ -19,6 +19,12 @@
       "activity_steps_today": {
         "default": "mdi:shoe-print"
       },
+      "atrial_fibrillation": {
+        "default": "mdi:heart-pulse"
+      },
+      "atrial_fibrillation_from_ppg": {
+        "default": "mdi:heart-pulse"
+      },
       "average_heart_rate": {
         "default": "mdi:heart-pulse"
       },

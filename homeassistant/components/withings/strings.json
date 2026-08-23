@@ -83,6 +83,12 @@
       "activity_total_calories_burnt_today": {
         "name": "Total calories burnt today"
       },
+      "atrial_fibrillation": {
+        "name": "Atrial fibrillation classification"
+      },
+      "atrial_fibrillation_from_ppg": {
+        "name": "Atrial fibrillation classification (PPG)"
+      },
       "average_heart_rate": {
         "name": "Average heart rate"
       },
@@ -105,6 +111,9 @@
       },
       "breathing_disturbances_intensity": {
         "name": "Breathing disturbances intensity"
+      },
+      "corrected_qt_interval": {
+        "name": "Corrected QT interval"
       },
       "deep_sleep": {
         "name": "Deep sleep"
@@ -208,8 +217,17 @@
       "muscle_mass_for_segments_torso": {
         "name": "Muscle mass in torso"
       },
+      "pr_interval": {
+        "name": "PR interval"
+      },
       "pulse_wave_velocity": {
         "name": "Pulse wave velocity"
+      },
+      "qrs_interval": {
+        "name": "QRS interval"
+      },
+      "qt_interval": {
+        "name": "QT interval"
       },
       "rem_sleep": {
         "name": "REM sleep"
