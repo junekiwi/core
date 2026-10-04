@@ -3,7 +3,7 @@
 from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, override
+from typing import TYPE_CHECKING, Any, override
 
 from aiowithings import (
     Activity,
@@ -39,7 +39,6 @@ from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from homeassistant.helpers.typing import StateType
 from homeassistant.util import dt as dt_util
 
-from . import WithingsConfigEntry
 from .const import (
     DOMAIN,
     LOGGER,
@@ -58,6 +57,9 @@ from .coordinator import (
     WithingsWorkoutDataUpdateCoordinator,
 )
 from .entity import WithingsDeviceEntity, WithingsEntity
+
+if TYPE_CHECKING:
+    from . import WithingsConfigEntry
 
 
 @dataclass(frozen=True, kw_only=True)

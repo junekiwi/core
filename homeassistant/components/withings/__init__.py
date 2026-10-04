@@ -42,7 +42,7 @@ from homeassistant.const import (
 )
 from homeassistant.core import CALLBACK_TYPE, HomeAssistant
 from homeassistant.exceptions import ConfigEntryNotReady
-from homeassistant.helpers import device_registry as dr
+from homeassistant.helpers import config_validation as cv, device_registry as dr
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.config_entry_oauth2_flow import (
     ImplementationUnavailableError,
@@ -50,6 +50,7 @@ from homeassistant.helpers.config_entry_oauth2_flow import (
     async_get_config_entry_implementation,
 )
 from homeassistant.helpers.event import async_call_later
+from homeassistant.helpers.typing import ConfigType
 
 from .const import DEFAULT_TITLE, DOMAIN, LOGGER
 from .coordinator import (
@@ -62,6 +63,16 @@ from .coordinator import (
     WithingsSleepDataUpdateCoordinator,
     WithingsWorkoutDataUpdateCoordinator,
 )
+from .services import async_setup_services
+from .statistics import (
+    ACTIVITY,
+    MEASUREMENTS,
+    SLEEP,
+    WithingsStatisticsImporter,
+    async_remove_statistics_store,
+)
+
+CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 PLATFORMS = [Platform.BINARY_SENSOR, Platform.CALENDAR, Platform.SENSOR]
 
@@ -85,6 +96,7 @@ class WithingsData:
     activity_coordinator: WithingsActivityDataUpdateCoordinator
     workout_coordinator: WithingsWorkoutDataUpdateCoordinator
     device_coordinator: WithingsDeviceDataUpdateCoordinator
+    statistics_importer: WithingsStatisticsImporter
     coordinators: set[WithingsDataUpdateCoordinator] = field(default_factory=set)
 
     def __post_init__(self) -> None:
@@ -98,6 +110,12 @@ class WithingsData:
             self.workout_coordinator,
             self.device_coordinator,
         }
+
+
+async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
+    """Set up the Withings services."""
+    async_setup_services(hass)
+    return True
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: WithingsConfigEntry) -> bool:
@@ -146,6 +164,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: WithingsConfigEntry) -> 
         activity_coordinator=WithingsActivityDataUpdateCoordinator(hass, entry, client),
         workout_coordinator=WithingsWorkoutDataUpdateCoordinator(hass, entry, client),
         device_coordinator=WithingsDeviceDataUpdateCoordinator(hass, entry, client),
+        statistics_importer=WithingsStatisticsImporter(hass, entry, client),
     )
 
     for coordinator in withings_data.coordinators:
@@ -190,6 +209,16 @@ async def async_setup_entry(hass: HomeAssistant, entry: WithingsConfigEntry) -> 
         )
 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
+
+    importer = withings_data.statistics_importer
+    await importer.async_setup()
+    for category, coordinator in (
+        (MEASUREMENTS, withings_data.measurement_coordinator),
+        (SLEEP, withings_data.sleep_coordinator),
+        (ACTIVITY, withings_data.activity_coordinator),
+    ):
+        entry.async_on_unload(importer.async_listen(category, coordinator))
+        importer.async_schedule_import(category)
 
     return True
 
@@ -448,6 +477,7 @@ async def _async_cloudhook_generate_url(
 
 async def async_remove_entry(hass: HomeAssistant, entry: WithingsConfigEntry) -> None:
     """Cleanup when entry is removed."""
+    await async_remove_statistics_store(hass, entry)
     if cloud.async_active_subscription(hass):
         try:
             LOGGER.debug(

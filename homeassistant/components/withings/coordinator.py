@@ -32,6 +32,26 @@ if TYPE_CHECKING:
 
 UPDATE_INTERVAL = timedelta(minutes=10)
 
+SLEEP_SUMMARY_DATA_FIELDS = [
+    SleepSummaryDataFields.BREATHING_DISTURBANCES_INTENSITY,
+    SleepSummaryDataFields.DEEP_SLEEP_DURATION,
+    SleepSummaryDataFields.SLEEP_LATENCY,
+    SleepSummaryDataFields.WAKE_UP_LATENCY,
+    SleepSummaryDataFields.AVERAGE_HEART_RATE,
+    SleepSummaryDataFields.MIN_HEART_RATE,
+    SleepSummaryDataFields.MAX_HEART_RATE,
+    SleepSummaryDataFields.LIGHT_SLEEP_DURATION,
+    SleepSummaryDataFields.REM_SLEEP_DURATION,
+    SleepSummaryDataFields.AVERAGE_RESPIRATION_RATE,
+    SleepSummaryDataFields.MIN_RESPIRATION_RATE,
+    SleepSummaryDataFields.MAX_RESPIRATION_RATE,
+    SleepSummaryDataFields.SLEEP_SCORE,
+    SleepSummaryDataFields.SNORING,
+    SleepSummaryDataFields.SNORING_COUNT,
+    SleepSummaryDataFields.WAKE_UP_COUNT,
+    SleepSummaryDataFields.TOTAL_TIME_AWAKE,
+]
+
 
 class WithingsDataUpdateCoordinator[_DataT](DataUpdateCoordinator[_DataT]):
     """Base coordinator."""
@@ -166,25 +186,7 @@ class WithingsSleepDataUpdateCoordinator(
 
         response = await self._client.get_sleep_summary_since(
             sleep_summary_since=yesterday_noon_utc,
-            sleep_summary_data_fields=[
-                SleepSummaryDataFields.BREATHING_DISTURBANCES_INTENSITY,
-                SleepSummaryDataFields.DEEP_SLEEP_DURATION,
-                SleepSummaryDataFields.SLEEP_LATENCY,
-                SleepSummaryDataFields.WAKE_UP_LATENCY,
-                SleepSummaryDataFields.AVERAGE_HEART_RATE,
-                SleepSummaryDataFields.MIN_HEART_RATE,
-                SleepSummaryDataFields.MAX_HEART_RATE,
-                SleepSummaryDataFields.LIGHT_SLEEP_DURATION,
-                SleepSummaryDataFields.REM_SLEEP_DURATION,
-                SleepSummaryDataFields.AVERAGE_RESPIRATION_RATE,
-                SleepSummaryDataFields.MIN_RESPIRATION_RATE,
-                SleepSummaryDataFields.MAX_RESPIRATION_RATE,
-                SleepSummaryDataFields.SLEEP_SCORE,
-                SleepSummaryDataFields.SNORING,
-                SleepSummaryDataFields.SNORING_COUNT,
-                SleepSummaryDataFields.WAKE_UP_COUNT,
-                SleepSummaryDataFields.TOTAL_TIME_AWAKE,
-            ],
+            sleep_summary_data_fields=SLEEP_SUMMARY_DATA_FIELDS,
         )
         if not response:
             return None

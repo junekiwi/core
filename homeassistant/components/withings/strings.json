@@ -332,6 +332,45 @@
   "exceptions": {
     "oauth2_implementation_unavailable": {
       "message": "[%key:common::exceptions::oauth2_implementation_unavailable::message%]"
+    },
+    "import_history_failed": {
+      "message": "Failed to import the Withings history: {error}"
+    },
+    "invalid_import_period": {
+      "message": "The start date must be on or before the end date and not in the future."
+    }
+  },
+  "selector": {
+    "data_types": {
+      "options": {
+        "activity": "Activity",
+        "measurements": "Measurements",
+        "sleep": "Sleep"
+      }
+    }
+  },
+  "services": {
+    "import_history": {
+      "description": "Imports the Withings history of a period into the long-term statistics, replacing what was imported before. Also works for dates before your current devices were used. Activity is imported up to today, because the daily totals are stored as running sums.",
+      "fields": {
+        "config_entry_id": {
+          "description": "The Withings account to import the history of.",
+          "name": "Account"
+        },
+        "data_types": {
+          "description": "The kinds of data to import.",
+          "name": "Data"
+        },
+        "end_date": {
+          "description": "The last day to import. Defaults to today.",
+          "name": "End date"
+        },
+        "start_date": {
+          "description": "The first day to import.",
+          "name": "Start date"
+        }
+      },
+      "name": "Import history"
     }
   }
 }

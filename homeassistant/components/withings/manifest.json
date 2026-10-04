@@ -4,7 +4,7 @@
   "after_dependencies": ["cloud"],
   "codeowners": ["@joostlek"],
   "config_flow": true,
-  "dependencies": ["application_credentials", "http", "webhook"],
+  "dependencies": ["application_credentials", "http", "recorder", "webhook"],
   "dhcp": [
     {
       "macaddress": "0024E4*"

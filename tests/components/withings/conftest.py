@@ -1,5 +1,6 @@
 """Fixtures for tests."""
 
+from collections.abc import Generator
 from datetime import timedelta
 import time
 from unittest.mock import AsyncMock, patch
@@ -13,6 +14,7 @@ from homeassistant.components.application_credentials import (
     ClientCredential,
     async_import_client_credential,
 )
+from homeassistant.components.recorder import Recorder
 from homeassistant.components.withings.const import DOMAIN
 from homeassistant.core import HomeAssistant
 from homeassistant.setup import async_setup_component
@@ -38,6 +40,20 @@ SCOPES = [
 TITLE = "henk"
 USER_ID = 12345
 WEBHOOK_ID = "55a7335ea8dee830eed4ef8f84cda8f6d80b83af0847dc74032e86120bffed5e"
+
+
+@pytest.fixture(autouse=True)
+def mock_recorder(recorder_mock: Recorder) -> None:
+    """Set up the recorder, the integration depends on it."""
+
+
+@pytest.fixture(autouse=True)
+def disable_statistics_import() -> Generator[None]:
+    """Disable the statistics import, tests of the sensors count API calls."""
+    with patch(
+        "homeassistant.components.withings.statistics.WithingsStatisticsImporter.async_schedule_import"
+    ):
+        yield
 
 
 @pytest.fixture(name="scopes")
